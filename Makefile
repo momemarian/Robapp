@@ -1,15 +1,22 @@
-
+CC=gcc
 LIBS=-lczmq -lzmq
+BIN=./bin/
+SRC=./src/
+MAKE_BIN=mkdir -p $(BIN)
+RM_BIN=rm -rf $(BIN)
 
+LIST=directories $(BIN)/Robapp_server $(BIN)/Robapp_client
 
-all: server client
+all: $(LIST)
 
-.PHONY : clean
-clean :
-	-rm -rf server client 
+.PHONY : clean directories
 
-server: Robapp_server.c
-	    gcc -o server Robapp_server.c $(LIBS)
+$(BIN)/%:  $(SRC)%.c
+	    $(CC)  $< -o $@ $(LIBS)
 
-client: Robapp_client.c
-	    gcc -o client Robapp_client.c $(LIBS)
+directories: 
+	$(MAKE_BIN)
+
+clean : 
+	$(RM_BIN) 
+
